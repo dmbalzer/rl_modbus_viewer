@@ -3,8 +3,8 @@ if &cp | set nocp | endif
 let s:cpo_save=&cpo
 set cpo&vim
 inoremap <C-U> u
-nmap Q gq
 xmap Q gq
+nmap Q gq
 omap Q gq
 xmap gx <Plug>NetrwBrowseXVis
 nmap gx <Plug>NetrwBrowseX
@@ -41,14 +41,16 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +0 src/main.c
-badd +0 /ucrt64/include/raylib.h
-badd +0 /ucrt64/include/modbus/modbus.h
+badd +19 src/main.c
+badd +1141 /ucrt64/include/raylib.h
+badd +1 /ucrt64/include/modbus/modbus.h
+badd +1 src/raygui.h
 argglobal
 %argdel
 $argadd src/main.c
 edit src/main.c
 argglobal
+balt src/raygui.h
 setlocal keymap=
 setlocal noarabic
 setlocal noautoindent
@@ -185,12 +187,12 @@ setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 15 - ((14 * winheight(0) + 13) / 26)
+let s:l = 19 - ((18 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 15
-normal! 018|
+keepjumps 19
+normal! 044|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
