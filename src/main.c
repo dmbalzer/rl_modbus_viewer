@@ -1,4 +1,5 @@
-#include <raylib.h>
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
 #include "structs.h"
 
 bool quit = false;
