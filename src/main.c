@@ -14,7 +14,8 @@ int main(void)
 	SetTargetFPS(30);
 
 	Font font = LoadFontEx("assets/Roboto-Regular.ttf", 18, NULL, 0);
-	
+	GuiSetFont(font);
+	GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
 
 	FilePathList fpl = LoadDirectoryFiles("./assets");
 	for ( int i = 0; i < fpl.count; i++ ) {
@@ -24,19 +25,29 @@ int main(void)
 	}
 	UnloadDirectoryFiles(fpl);
 	
-	
+	Vector2 anchor = { 0 };
 
 	while ( !quit ) {
 		if ( WindowShouldClose() ) quit = true;
 		BeginDrawing();
 		ClearBackground(DARKGRAY);
 		
-		int x = 0, y = 0;	
+		Rectangle bounds = {
+			.width = 300,
+			.height = 400,
+		};
+	
+		GuiPanel(bounds, "Textures");
+		GuiPanel((Rectangle){ bounds.x+bounds.width,bounds.y,bounds.width,bounds.height }, NULL);	
+		BeginScissorMode(anchor.x, anchor.y + 24, bounds.width, bounds.height - 24);
+		int x = anchor.x;
+		int y = anchor.y;	
 		for ( int i = 0; i < arrlen(textures); i++ ) {
 			DrawTexture(textures[i], x, y, WHITE);
 			x += textures[i].width;
 		}
-		
+		EndScissorMode();	
+
 		EndDrawing();
 	}
 
