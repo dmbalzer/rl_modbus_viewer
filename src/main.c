@@ -4,14 +4,18 @@
 
 bool quit = false;
 
+Image* images = NULL;
+
 int main(void)
 {
 	InitWindow(960,640,"Raylib Modbus Viewer");
-	SetTargetFPS(60);
+	SetTargetFPS(30);
+
 	while ( !quit ) {
 		if ( WindowShouldClose() ) quit = true;
 		BeginDrawing();
 		ClearBackground(DARKGRAY);
+		
 		EndDrawing();
 	}
 	CloseWindow();
