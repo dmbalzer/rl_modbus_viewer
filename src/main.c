@@ -7,6 +7,7 @@
 bool quit = false;
 
 Texture* textures = NULL;
+Gif* gifs = NULL;
 
 int main(void)
 {
@@ -21,32 +22,26 @@ int main(void)
 	for ( int i = 0; i < fpl.count; i++ ) {
 		if ( IsFileExtension(fpl.paths[i], ".png") ) {
 			arrput(textures, LoadTexture(fpl.paths[i]));
+		} else if ( IsFileExtension(fpl.paths[i], ".gif") ) {
+			Gif gif = { 0 };
+			gif.image = LoadImageAnim(fpl.paths[i], &gif.qty);
+			Texture texture = LoadTextureFromImage(gif.image);
+			gif.texture = &texture;
+			arrput(textures, texture);
+			arrput(gifs, gif);
 		}
 	}
 	UnloadDirectoryFiles(fpl);
 	
-	Vector2 anchor = { 0 };
-
 	while ( !quit ) {
 		if ( WindowShouldClose() ) quit = true;
 		BeginDrawing();
 		ClearBackground(DARKGRAY);
-		
-		Rectangle bounds = {
-			.width = 300,
-			.height = 400,
-		};
-	
-		GuiPanel(bounds, "Textures");
-		GuiPanel((Rectangle){ bounds.x+bounds.width,bounds.y,bounds.width,bounds.height }, NULL);	
-		BeginScissorMode(anchor.x, anchor.y + 24, bounds.width, bounds.height - 24);
-		int x = anchor.x;
-		int y = anchor.y;	
+		int x = 0, y = 0;	
 		for ( int i = 0; i < arrlen(textures); i++ ) {
 			DrawTexture(textures[i], x, y, WHITE);
 			x += textures[i].width;
 		}
-		EndScissorMode();	
 
 		EndDrawing();
 	}
