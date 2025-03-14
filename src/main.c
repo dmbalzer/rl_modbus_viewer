@@ -43,7 +43,7 @@ int draw_image_window(void)
 {
 	int result = 0;
 	Rectangle bounds = (Rectangle){ 8, 8, 200, 300 };
-	static Vector2 anchor = (Vector2){ 8 + 8, 8 + 24 + 8 };
+	static Vector2 anchor = (Vector2){ 8, 8 + 24 };
 	result = GuiWindowBox(bounds, "Images");
 
 	// GuiScrollPanel(Rectangle bounds, const char *text, Rectangle content, Vector2 *scroll, Rectangle *view);
@@ -53,12 +53,12 @@ int draw_image_window(void)
 		if ( w < textures[i].width ) w = textures[i].width + 16;
 		h += textures[i].height;
 	}
-	Rectangle bounds_content = { anchor.x, anchor.y, w, h };
+	Rectangle bounds_content = { anchor.x, anchor.y, w + 16, h + 16 };
 	Rectangle bounds_view = { 0 };
 	GuiScrollPanel(bounds_scroll, NULL, bounds_content, &anchor, &bounds_view);
 	
 	BeginScissorMode( bounds_view.x, bounds_view.y, bounds_view.width, bounds_view.height );
-	int x = anchor.x + 8, y = anchor.y + 24 + 8;
+	int x = anchor.x + 16, y = anchor.y + 24 + 16;
 	for ( int i = 0; i < MAX_ARRAY; i++ ) {
 		DrawTexture(textures[i], x, y, WHITE);
 		y += textures[i].height;
